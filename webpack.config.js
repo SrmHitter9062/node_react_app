@@ -4,7 +4,8 @@ var path = require("path");
 
 module.exports = {
  entry: {
-   app:"./public/app/App.js"
+  //  app:"./public/app/App.js"
+   app:"./src/app.js"
  },
  output: {
    filename: "public/build/bundle.js",
@@ -15,7 +16,7 @@ module.exports = {
    loaders: [
      {
        test: /\.jsx?$/,
-       exclude: /node_modules|bower_components/,
+       exclude: /(node_modules)/,
        loader: 'babel',
        query: {
          presets: ['react', 'es2015']
