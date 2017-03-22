@@ -92,7 +92,7 @@ router.post('/:resource',function(req,res,next){
     }
     res.json({
       status:'success',
-      message:result
+      message: resource + " is created successfully with id : " + result._id
     })
   });
 
