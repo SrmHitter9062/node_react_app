@@ -33,7 +33,7 @@ router.get('/:resource',function(req,res,next){
     }
     res.json({
       status:'success',
-      result:results
+      results:results
     })
 
   })
@@ -62,7 +62,7 @@ router.get('/:resource/:id',function(req,res,next){
     }
     res.json({
       status:'success',
-      result:result
+      results:result
     })
   })
 
