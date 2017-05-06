@@ -6,10 +6,12 @@ class Zones extends Component{
   constructor(){
     super()
     this.state = {
+      selected:0,
       list:[]
     }
   }
   componentDidMount(){
+    console.log('Zones componentDidMount')
     APIManager.get('/api/zone',null,(err,response)=>{
       if(err){
         alert('ERROR :'+err.message)
@@ -21,7 +23,7 @@ class Zones extends Component{
       })
     })
   }
-  addZone(zone){    
+  addZone(zone){
     let updatedZone = Object.assign({},zone)
     APIManager.post('/api/zone',updatedZone,(err,response)=>{
       if(err){
@@ -43,10 +45,17 @@ class Zones extends Component{
     //   list:updatedList
     // })
   }
+  selectZone(index){
+    console.log("a zone is selected " , index);
+    this.setState({
+      selected : index
+    })
+  }
   render(){
     const listItems = this.state.list.map((zone,i) => {
+      let selected = (i == this.state.selected)
       return (
-        <li key={i}><Zone currentZone={zone}/></li>
+        <li key={i}><Zone index = {i} select = {this.selectZone.bind(this)} isSelected = {selected} currentZone={zone}/></li>
       )
     })
     return(

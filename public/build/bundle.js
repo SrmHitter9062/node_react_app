@@ -21614,6 +21614,7 @@
 	    var _this = _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).call(this));
 
 	    _this.state = {
+	      selected: 0,
 	      list: []
 	    };
 	    return _this;
@@ -21624,6 +21625,7 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      console.log('Zones componentDidMount');
 	      _utils.APIManager.get('/api/zone', null, function (err, response) {
 	        if (err) {
 	          alert('ERROR :' + err.message);
@@ -21661,13 +21663,24 @@
 	      // })
 	    }
 	  }, {
+	    key: 'selectZone',
+	    value: function selectZone(index) {
+	      console.log("a zone is selected ", index);
+	      this.setState({
+	        selected: index
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this4 = this;
+
 	      var listItems = this.state.list.map(function (zone, i) {
+	        var selected = i == _this4.state.selected;
 	        return _react2.default.createElement(
 	          'li',
 	          { key: i },
-	          _react2.default.createElement(_presentation.Zone, { currentZone: zone })
+	          _react2.default.createElement(_presentation.Zone, { index: i, select: _this4.selectZone.bind(_this4), isSelected: selected, currentZone: zone })
 	        );
 	      });
 	      return _react2.default.createElement(
@@ -22004,21 +22017,33 @@
 	  }
 
 	  _createClass(Zones, [{
+	    key: 'onSelectTitle',
+	    value: function onSelectTitle(event) {
+	      event.preventDefault();
+	      // console.log('onSelectTitle');
+	      this.props.select(this.props.index);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var zoneStyle = _styles2.default.zone;
 	      var zipCode = this.props.currentZone.zipCodes[0];
+	      var title = this.props.isSelected ? _react2.default.createElement(
+	        'a',
+	        { style: zoneStyle.title, href: '#' },
+	        this.props.currentZone.name
+	      ) : _react2.default.createElement(
+	        'a',
+	        { href: '#' },
+	        this.props.currentZone.name
+	      );
 	      return _react2.default.createElement(
 	        'div',
 	        { style: zoneStyle.container },
 	        _react2.default.createElement(
 	          'h2',
-	          { style: zoneStyle.header },
-	          _react2.default.createElement(
-	            'a',
-	            { style: zoneStyle.title, href: '#' },
-	            this.props.currentZone.name
-	          )
+	          { style: zoneStyle.header, onClick: this.onSelectTitle.bind(this) },
+	          title
 	        ),
 	        _react2.default.createElement(
 	          'span',
@@ -24191,6 +24216,7 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      console.log('Comments componentDidMount');
 	      _utils.APIManager.get('/api/comment', null, function (err, response) {
 	        if (err) {
 	          alert('ERROR :' + err.message);
